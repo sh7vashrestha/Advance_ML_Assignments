@@ -1,3 +1,7 @@
+# Source Code File: clustering_agent.py
+# Student Name: Shiva Shrestha
+# Date: September 15, 2026
+
 import numpy as np
 from sklearn.metrics import silhouette_score
 
@@ -53,12 +57,20 @@ def evaluate_clusters(embeddings, min_k=2, max_k=10):
     )
 
 
-def find_representatives(chunks, embeddings, labels, centroids):
+def find_representatives(chunks, embeddings, labels, centroids=None):
     """Find the chunk closest to each cluster centroid."""
     representatives = []
+    cluster_count = (
+        len(centroids)
+        if centroids is not None
+        else int(labels.max()) + 1
+    )
 
-    for cluster_id in range(len(centroids)):
+    for cluster_id in range(cluster_count):
         indices = np.where(labels == cluster_id)[0]
+
+        if len(indices) == 0:
+            continue
 
         distances = np.sqrt(
             np.sum(
@@ -69,12 +81,13 @@ def find_representatives(chunks, embeddings, labels, centroids):
                 axis=1,
             )
         )
-
-        representative_index = indices[np.argmin(distances)]
+        medoid_index = int(indices[np.argmin(distances)])
 
         representatives.append({
             "cluster": cluster_id,
-            "chunk": chunks[representative_index],
+            "cluster_size": len(indices),
+            "medoid_index": medoid_index,
+            "chunk": chunks[medoid_index],
         })
 
     return representatives

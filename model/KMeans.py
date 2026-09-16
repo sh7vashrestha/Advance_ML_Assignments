@@ -1,3 +1,7 @@
+# Source Code File: KMeans.py
+# Student Name: Shiva Shrestha
+# Date: September 15, 2026
+
 import numpy as np
 
 

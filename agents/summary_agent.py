@@ -1,3 +1,7 @@
+# Source Code File: summary_agent.py
+# Student Name: Shiva Shrestha
+# Date: September 15, 2026
+
 from ollama import chat
 
 
@@ -6,10 +10,10 @@ def create_final_summary(topics, model="gemma4:e2b"):
 
     for topic in topics:
         component = (
-            f"Cluster {topic['cluster']}\n"
+            f"Topic: {topic['label']}\n"
             f"Source: {topic['source']}, "
             f"page {topic['page']}\n"
-            f"{topic['result']}"
+            f"Summary: {topic['summary']}"
         )
         topic_components.append(component)
 

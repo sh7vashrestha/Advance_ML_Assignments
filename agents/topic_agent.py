@@ -1,3 +1,7 @@
+# Source Code File: topic_agent.py
+# Student Name: Shiva Shrestha
+# Date: September 15, 2026
+
 from ollama import chat
 
 
@@ -32,11 +36,25 @@ Text:
             }
         )
 
+        result = response.message.content.strip()
+        topic_label = "Untitled topic"
+        topic_summary = result
+
+        for line in result.splitlines():
+            if line.lower().startswith("topic:"):
+                topic_label = line.split(":", 1)[1].strip()
+            elif line.lower().startswith("summary:"):
+                topic_summary = line.split(":", 1)[1].strip()
+
         topics.append({
             "cluster": cluster_id,
+            "cluster_size": representative["cluster_size"],
+            "medoid_index": representative["medoid_index"],
             "source": chunk["source"],
             "page": chunk["page"],
-            "result": response.message.content.strip()
+            "label": topic_label,
+            "summary": topic_summary,
+            "result": result,
         })
 
     return topics
