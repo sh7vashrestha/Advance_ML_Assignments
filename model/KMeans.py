@@ -35,9 +35,10 @@ def kmeans(data, k, max_iterations=100):
 
         new_centroids = np.array(new_centroids)
 
-        if np.allclose(centroids, new_centroids):
-            centroids = new_centroids
+        difference = centroids - new_centroids
+        centroids = new_centroids
+
+        if not difference.any():
             break
 
-        centroids = new_centroids
     return labels, centroids
