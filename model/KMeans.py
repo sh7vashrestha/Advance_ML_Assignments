@@ -4,7 +4,6 @@
 
 import numpy as np
 
-
 def kmeans(data, k, max_iterations=100):
     rng = np.random.default_rng(30)
     indices = rng.choice(len(data), k, replace=False)
